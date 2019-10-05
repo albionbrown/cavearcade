@@ -56,94 +56,85 @@ function generateCave() {
     var routing = true;
     var currentX = rootPathX;
     var currentY = rootPathY;
-    var maxPaths = 1;
-    var maxTurns = 5;
+    var maxPaths = 5;
+    var maxTurns = 30;
     var minStraight = 3;
-    var maxStraight = 8;
+    var maxStraight = 6;
 
     // Set player starting position
     player.setPosition(rootPathX, rootPathY);
 
-    // root path
-    // for turn
-        // if can write path
-            // write path
-        // else
-            // change direction adjacent to current direction
+    // For every path
+    // for (let p = 1; p < maxPaths; p++) {
 
-    for (let t = 0; t < maxTurns; t++) {
+        // For every turn allowed to be made in each path
+        for (let t = 0; t < maxTurns; t++) {
 
-        // Change direction. Must be perpendicular to previous direction
-        switch (direction) {
-
-            case 0:
-            case 1:
-                direction = Math.floor(Math.random() + 2.4);
-                break;
-
-            case 2:
-            case 3:
-                direction = Math.floor(Math.random() + 0.4);
-                break;
-        }
-
-        var currentPathLength = Math.floor((Math.random() * (maxStraight - minStraight)) + minStraight);
-        for (let p = 0; p < currentPathLength; p++) {
-
-            // if (currentX >= (caveGridWidth - 1)) {
-            //     break;            
-            // }
-
-            // if (currentY >= (caveGridHeight - 1)) {
-            //     break;
-            // }
-
+            // Change direction. Must be perpendicular to previous direction
             switch (direction) {
 
-                // Up
                 case 0:
-
-                    // If the path cannot go further up
-                    if (currentY == 0) {
-                        continue;
-                    }
-                    currentY--;
-                    break;
-
-                // Down
                 case 1:
-
-                    // If the path cannot go further down
-                    if (currentY == (caveGridHeight - 1)) {
-                        continue;
-                    }
-                    currentY++;
+                    direction = Math.floor(Math.random() + 2.4);
                     break;
 
-                // Left
                 case 2:
-
-                    // If the path cannot go further left
-                    if (currentX == 0) {
-                        continue;
-                    }
-                    currentX--;
-                    break;
-                
-                // Right
                 case 3:
-                    
-                    // If the path cannot go further right
-                    if (currentX == (caveGridWidth - 1)) {
-                        continue;
-                    }
-                    currentX++;
+                    direction = Math.floor(Math.random() + 0.4);
                     break;
             }
-            
-            caveGrid[currentX][currentY]['path'] = new Path(currentX, currentY);
+
+            var currentPathLength = Math.floor((Math.random() * (maxStraight - minStraight)) + minStraight);
+            // Draw a straight path between minStraight and maxStraight long
+            for (let p = 0; p < currentPathLength; p++) {
+
+                switch (direction) {
+
+                    // Up
+                    case 0:
+
+                        // If the path cannot go further up
+                        if (currentY == 0) {
+                            continue;
+                        }
+                        currentY--;
+                        break;
+
+                    // Down
+                    case 1:
+
+                        // If the path cannot go further down
+                        if (currentY == (caveGridHeight - 1)) {
+                            continue;
+                        }
+                        currentY++;
+                        break;
+
+                    // Left
+                    case 2:
+
+                        // If the path cannot go further left
+                        if (currentX == 0) {
+                            continue;
+                        }
+                        currentX--;
+                        break;
+                    
+                    // Right
+                    case 3:
+                        
+                        // If the path cannot go further right
+                        if (currentX == (caveGridWidth - 1)) {
+                            continue;
+                        }
+                        currentX++;
+                        break;
+                }
+                
+                caveGrid[currentX][currentY]['path'] = new Path(currentX, currentY);
+            }
         }
-    }
+    // }
 }
 
 function drawCave() {
@@ -152,6 +143,14 @@ function drawCave() {
         for (let h = 0; h < caveGridHeight; h++) {
             
             if (caveGrid[w][h]['path'] != false) {
+
+                if (player.canSee(w, h)) {
+                    caveGrid[w][h]['path'].illuminate();
+                }
+                else {
+                    caveGrid[w][h]['path'].darken(); 
+                }
+
                 caveGrid[w][h]['path'].draw();
             }
         }

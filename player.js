@@ -57,4 +57,25 @@ class Player extends Entity
         this.positionX = positionX;
         this.positionY = positionY;
     }
+
+    getPosition() {
+        return [this.positionX, this.positionY];
+    }
+
+    canSee(x, y) {
+
+        if (this.positionX == x && this.positionY == y) {
+            return true;
+        }
+
+        if (this.positionX == x && (this.positionY == (y - 1) || this.positionY == (y + 1))) {
+            return true;
+        }
+
+        if (this.positionY == y && (this.positionX == (x - 1) || this.positionX == (x + 1))) {
+            return true;
+        }
+
+        return false;
+    }
 }
