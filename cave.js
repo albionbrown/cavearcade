@@ -52,7 +52,7 @@ function generateCave() {
     // Set the root path
     caveGrid[rootPathX][rootPathY]['path'] = new Path(rootPathX, rootPathY);
     
-    var direction = Math.floor(Math.random() * 4);
+    var direction = Math.floor((Math.random() * (4 - 1)) + 1);
     var routing = true;
     var currentX = rootPathX;
     var currentY = rootPathY;
@@ -78,12 +78,12 @@ function generateCave() {
 
             case 0:
             case 1:
-                direction = Math.floor((Math.random() * (3 - 2)) + 2);
+                direction = Math.floor(Math.random() + 2.4);
                 break;
 
             case 2:
             case 3:
-                direction = Math.floor((Math.random() * (1 - 0)) + 0);
+                direction = Math.floor(Math.random() + 0.4);
                 break;
         }
 
@@ -156,4 +156,25 @@ function drawCave() {
             }
         }
     }
+}
+
+function isPath(x, y) {
+
+    if (caveGrid[x] == undefined) {
+        return false;
+    }
+
+    if (caveGrid[x][y] == undefined) {
+        return false;
+    }
+
+    if (caveGrid[x][y]['path'] == undefined) {
+        return false;
+    }
+
+    if (caveGrid[x][y]['path'] == false) {
+        return false;
+    }
+
+    return true;
 }

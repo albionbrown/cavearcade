@@ -33,20 +33,19 @@ class Player extends Entity
         // Remove the player's position from the cave grid
         delete caveGrid[this.positionX][this.positionY]['player'];
 
-        // @TODO rotation
-        if (leftPressed && !lastTurnLeftPressed && this.positionX > 0) {
+        if (leftPressed && !lastTurnLeftPressed && this.positionX > 0 && isPath(this.positionX - 1, this.positionY)) {
             this.positionX -= 1;
         }
 
-        if (rightPressed && !lastTurnRightPressed && this.positionX < (caveGridWidth - 1)) {
+        if (rightPressed && !lastTurnRightPressed && this.positionX < (caveGridWidth - 1) && isPath(this.positionX + 1, this.positionY)) {
             this.positionX += 1;
         }
 
-        if (upPressed && !lastTurnUpPressed && this.positionY > 0) {
+        if (upPressed && !lastTurnUpPressed && this.positionY > 0 && isPath(this.positionX, this.positionY - 1)) {
             this.positionY -= 1;
         }
 
-        if (downPressed && !lastTurnDownPressed && this.positionY < (caveGridHeight - 1)) {
+        if (downPressed && !lastTurnDownPressed && this.positionY < (caveGridHeight - 1) && isPath(this.positionX, this.positionY + 1)) {
             this.positionY += 1;
         }
 
