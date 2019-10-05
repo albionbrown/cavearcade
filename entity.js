@@ -6,11 +6,12 @@ class Entity {
     height;
     width;
     image;
+    colour;
 
     constructor(positionX, positionY) {
         this.positionX = positionX;
         this.positionY = positionY
-        this.width = caveWidth;
-        this.height = caveHeight;
+        this.width = cellWidth;
+        this.height = cellHeight;
     }
 }

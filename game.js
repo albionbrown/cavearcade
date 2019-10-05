@@ -1,39 +1,24 @@
 
-var PIXEL_RATIO = (function () {
-    var ctx = document.createElement("canvas").getContext("2d"),
-        dpr = window.devicePixelRatio || 1,
-        bsr = ctx.webkitBackingStorePixelRatio ||
-              ctx.mozBackingStorePixelRatio ||
-              ctx.msBackingStorePixelRatio ||
-              ctx.oBackingStorePixelRatio ||
-              ctx.backingStorePixelRatio || 1;
 
-    return dpr / bsr;
-})();
+// Create canvas with the device resolution.
+var canvas = createCanvas();
+var ctx = canvas.getContext("2d");
 
-createHiDPICanvas = function(w, h, ratio) {
-    if (!ratio) { ratio = PIXEL_RATIO; }
-    canvas = document.getElementById("gameCanvas");
-    canvas.width = w * ratio;
-    canvas.height = h * ratio;
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
-    canvas.getContext("2d").setTransform(ratio, 0, 0, ratio, 0, 0);
-    return canvas;
-}
+var player = new Player(0, 0);
+
+generateCave();
+
+var dialogBox = new Dialog(0, 0);
 
 function gameTurn() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawCave();
     player.turn();
     player.draw();
+    // dialogBox.draw();
     storeKeysForNextTurn();
+    // console.log(caveGrid);
 }
 
-//Create canvas with the device resolution.
-var canvas = createHiDPICanvas(800, 600);
-var ctx = canvas.getContext("2d")
-
-var startPos = 0;
-var player = new Player(0, 10);
-
+// Run game loop
 setInterval(gameTurn, 10); 
