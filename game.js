@@ -26,6 +26,7 @@ function gameTurn() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     player.turn();
     player.draw();
+    storeKeysForNextTurn();
 }
 
 //Create canvas with the device resolution.

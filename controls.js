@@ -11,24 +11,32 @@ var leftPressed = false
 var upPressed = false;
 var downPressed = false;
 
+var lastTurnRightPressed = false;
+var lastTurnLeftPressed = false;
+var lastTurnUpPressed = false;
+var lastTurnDownPressed = false;
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
 function keyDownHandler(e) {
 
-    console.log(e)
-    if (e.key == "Right" || e.key == "ArrowRight") {
-      rightPressed = true;
+    if ((e.key == "Right" || e.key == "ArrowRight")) {
+        rightPressed = true;
     }
-    else if (e.key == "Left" || e.key == "ArrowLeft") {
+    else if ((e.key == "Left" || e.key == "ArrowLeft")) {
         leftPressed = true;
     }
-    else if (e.key == "Up" || e.key == "ArrowUp") {
+    else if ((e.key == "Up" || e.key == "ArrowUp")) {
         upPressed = true;
     }
-    else if (e.key == "Down" || e.key == "ArrowDown") {
+    else if ((e.key == "Down" || e.key == "ArrowDown")) {
         downPressed = true;
     }
 }
 
 function keyUpHandler(e) {
+    
     if (e.key == "Right" || e.key == "ArrowRight") {
         rightPressed = false;
     }
@@ -43,5 +51,11 @@ function keyUpHandler(e) {
     }
 }
 
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
+function storeKeysForNextTurn() {
+
+    // Store the last turn's keys
+    lastTurnRightPressed = rightPressed;
+    lastTurnLeftPressed  = leftPressed;
+    lastTurnUpPressed    = upPressed;
+    lastTurnDownPressed  = downPressed;
+}

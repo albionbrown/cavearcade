@@ -20,20 +20,20 @@ class Player extends Entity
     turn() {
 
         // @TODO rotation
-        if (leftPressed) {
-            this.positionX--;
+        if (leftPressed && !lastTurnLeftPressed) {
+            this.positionX -= caveWidth;
         }
 
-        if (rightPressed) {
-            this.positionX++;
+        if (rightPressed && !lastTurnRightPressed) {
+            this.positionX += caveWidth;
         }
 
-        if (upPressed) {
-            this.positionY--;
+        if (upPressed && !lastTurnUpPressed) {
+            this.positionY -= caveHeight;
         }
 
-        if (downPressed) {
-            this.positionY++;
+        if (downPressed && !lastTurnDownPressed) {
+            this.positionY += caveHeight;
         }
     }
 }
