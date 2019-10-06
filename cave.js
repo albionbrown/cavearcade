@@ -37,8 +37,8 @@ var caveGrid = [];
 for (let w = 0; w < caveGridWidth; w++) {
     caveGrid[w] = [];
     for (let h = 0; h < caveGridHeight; h++) {
-        caveGrid[w][h] = [];
-        caveGrid[w][h]['path'] = false;
+        caveGrid[w][h] = {};
+        caveGrid[w][h].path = false;
     }
 }
 
@@ -50,22 +50,25 @@ function generateCave() {
     var rootPathY = Math.floor((Math.random() * (beginMax - beginMin)) + beginMin);
 
     // Set the root path
-    caveGrid[rootPathX][rootPathY]['path'] = new Path(rootPathX, rootPathY);
+    caveGrid[rootPathX][rootPathY].path = new Path(rootPathX, rootPathY);
     
     var direction = Math.floor((Math.random() * (4 - 1)) + 1);
-    var routing = true;
     var currentX = rootPathX;
     var currentY = rootPathY;
-    var maxPaths = 5;
+    var maxPaths = 1;
     var maxTurns = 30;
     var minStraight = 3;
     var maxStraight = 6;
+    var paths = [];
 
     // Set player starting position
     player.setPosition(rootPathX, rootPathY);
 
     // For every path
-    // for (let p = 1; p < maxPaths; p++) {
+    for (let pth = 0; pth < maxPaths; pth++) {
+
+        paths[pth] = [];
+        var printedTorch = false;
 
         // For every turn allowed to be made in each path
         for (let t = 0; t < maxTurns; t++) {
@@ -131,10 +134,27 @@ function generateCave() {
                         break;
                 }
                 
-                caveGrid[currentX][currentY]['path'] = new Path(currentX, currentY);
+                caveGrid[currentX][currentY].path = new Path(currentX, currentY);
+                paths[pth].push({x: currentX, y: currentY});
+
+                // currentPathLength - p = max && haven't printed torch this path
+                // random number between 0 and max
+                // if number = 0
+                    // print torch
+                    // set printed torch this path = true
+                if (printedTorch == false) {
+                    let maxOdds = currentPathLength - p;
+                    let odds = Math.floor(Math.random() * (maxOdds - minStraight) + minStraight);
+
+                    if ((maxOdds - 1) == odds) {
+
+                        caveGrid[currentX][currentY].item = new Torch(currentX, currentY);
+                        printedTorch = true;
+                    }
+                }
             }
         }
-    // }
+    }
 }
 
 function drawCave() {
@@ -142,16 +162,21 @@ function drawCave() {
     for (let w = 0; w < caveGridWidth; w++) {
         for (let h = 0; h < caveGridHeight; h++) {
             
-            if (caveGrid[w][h]['path'] != false) {
+            if (caveGrid[w][h].path != false) {
 
                 if (player.canSee(w, h)) {
-                    caveGrid[w][h]['path'].illuminate();
+                    caveGrid[w][h].path.illuminate();
                 }
                 else {
-                    caveGrid[w][h]['path'].darken(); 
+                    caveGrid[w][h].path.darken(); 
                 }
 
-                caveGrid[w][h]['path'].draw();
+                caveGrid[w][h].path.draw();
+
+                // If the path also has an item, draw it
+                if (caveGrid[w][h].item != undefined) {
+                    caveGrid[w][h].item.draw();
+                }
             }
         }
     }
@@ -167,11 +192,11 @@ function isPath(x, y) {
         return false;
     }
 
-    if (caveGrid[x][y]['path'] == undefined) {
+    if (caveGrid[x][y].path == undefined) {
         return false;
     }
 
-    if (caveGrid[x][y]['path'] == false) {
+    if (caveGrid[x][y].path == false) {
         return false;
     }
 

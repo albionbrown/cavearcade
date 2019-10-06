@@ -12,8 +12,8 @@ var dialogBox = new Dialog(0, 0);
 
 function gameTurn() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawCave();
     player.turn();
+    drawCave();
     player.draw();
     // dialogBox.draw();
     storeKeysForNextTurn();

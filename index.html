@@ -11,8 +11,13 @@
         <script type="text/javascript" src="/path.js"></script>
         <script type="text/javascript" src="/player.js"></script>
         <script type="text/javascript" src="/dialog.js"></script>
+        <script type="text/javascript" src="/torch.js"></script>
 
         <style type="text/css">
+
+            div#assetsContainer {
+                display: none;
+            }
 
             div#gameContainer {
                 position: relative;
@@ -27,9 +32,13 @@
     </head>
     <body>
         <h1>CaveArcade by AlbionBrown</h1>
-        <p>My first Ludum Dare game. Made all on the Raspberry Pi 4B</p>
+        <p>My first Ludum Dare game. Made on the Raspberry Pi 4B.</p>
         <div id="gameContainer">
             <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <div id="assetsContainer">
+            <img id="torch" src="assets/torch.png">
         </div>
         
         <script type="text/javascript" src="/game.js"></script>
