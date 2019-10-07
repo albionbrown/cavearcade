@@ -56,7 +56,7 @@ function generateCave() {
     var currentX = rootPathX;
     var currentY = rootPathY;
     var maxPaths = 1;
-    var maxTurns = 30;
+    var maxTurns = 50;
     var minStraight = 3;
     var maxStraight = 6;
     var paths = [];
