@@ -159,27 +159,139 @@ function generateCave() {
 
 function drawCave() {
 
-    for (let w = 0; w < caveGridWidth; w++) {
-        for (let h = 0; h < caveGridHeight; h++) {
-            
-            if (caveGrid[w][h].path != false) {
+    var playerPositionX = player.getPosition()[0];
+    var playerPositionY = player.getPosition()[1];
+    var playerVision = player.getVision();
 
-                if (player.canSee(w, h)) {
-                    caveGrid[w][h].path.illuminate();
+    // Draw paths left of the player
+    for (let x = playerPositionX; x >= playerPositionX - playerVision; x--) {
+        let y = playerPositionY;
+        if (caveGrid[x] != undefined) {
+            if (caveGrid[x][y] != undefined) {
+                if (caveGrid[x][y].path instanceof Path) {
+                    caveGrid[x][y].path.illuminate();
+                    caveGrid[x][y].path.draw();
+
+                    // If the path also has an item, draw it
+                    if (caveGrid[x][y].item != undefined) {
+                        caveGrid[x][y].item.draw();
+                    }
                 }
                 else {
-                    caveGrid[w][h].path.darken(); 
-                }
-
-                caveGrid[w][h].path.draw();
-
-                // If the path also has an item, draw it
-                if (caveGrid[w][h].item != undefined) {
-                    caveGrid[w][h].item.draw();
+                    break;
                 }
             }
+            else {
+                break;
+            }
+        }
+        else {
+            break;
         }
     }
+
+    // Draw paths right of the player
+    for (let x = playerPositionX; x <= playerPositionX + playerVision; x++) {
+        let y = playerPositionY;
+        if (caveGrid[x] != undefined) {
+            if (caveGrid[x][y] != undefined) {
+                if (caveGrid[x][y].path instanceof Path) {
+                    caveGrid[x][y].path.illuminate();
+                    caveGrid[x][y].path.draw();
+
+                    // If the path also has an item, draw it
+                    if (caveGrid[x][y].item != undefined) {
+                        caveGrid[x][y].item.draw();
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+            else {
+                break;
+            }
+        }
+        else {
+            break;
+        }
+    }
+
+    // Draw paths above the player
+    for (let y = playerPositionY; y >= playerPositionY - playerVision; y--) {
+        let x = playerPositionX;
+        if (caveGrid[x] != undefined) {
+            if (caveGrid[x][y] != undefined) {
+                if (caveGrid[x][y].path instanceof Path) {
+                    caveGrid[x][y].path.illuminate();
+                    caveGrid[x][y].path.draw();
+
+                    // If the path also has an item, draw it
+                    if (caveGrid[x][y].item != undefined) {
+                        caveGrid[x][y].item.draw();
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+            else {
+                break;
+            }
+        }
+        else {
+            break;
+        }
+    }
+
+    // Draw paths below the player
+    for (let y = playerPositionY; y <= playerPositionY + playerVision; y++) {
+        let x = playerPositionX;
+        if (caveGrid[x] != undefined) {
+            if (caveGrid[x][y] != undefined) {
+                if (caveGrid[x][y].path instanceof Path) {
+                    caveGrid[x][y].path.illuminate();
+                    caveGrid[x][y].path.draw();
+
+                    // If the path also has an item, draw it
+                    if (caveGrid[x][y].item != undefined) {
+                        caveGrid[x][y].item.draw();
+                    }
+                }
+                else {
+                    break;
+                }
+            }
+            else {
+                break;
+            }
+        }
+        else {
+            break;
+        }
+    }
+
+    // for (let w = 0; w < caveGridWidth; w++) {
+    //     for (let h = 0; h < caveGridHeight; h++) {
+            
+    //         if (caveGrid[w][h].path != false) {
+
+    //             if (player.canSee(w, h)) {
+    //                 caveGrid[w][h].path.illuminate();
+    //             }
+    //             else {
+    //                 caveGrid[w][h].path.darken(); 
+    //             }
+
+    //             caveGrid[w][h].path.draw();
+
+    //             // If the path also has an item, draw it
+    //             if (caveGrid[w][h].item != undefined) {
+    //                 caveGrid[w][h].item.draw();
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 function isPath(x, y) {

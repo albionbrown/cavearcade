@@ -5,9 +5,12 @@ var playerStartingY = 0;
 class Player extends Entity
 {
 
+    vision;
+
     constructor(positionX, positionY) {
         super(positionX, positionY);
         this.colour = "#FFFFFF";
+        this.vision = 1;
     }
 
     draw() {
@@ -51,6 +54,11 @@ class Player extends Entity
 
         // Add the new player's position to the cave grid
         caveGrid[this.positionX][this.positionY]['player'] = this;
+
+        // Is the player on an item?
+        if (this.isOnItem()) {
+            this.pickUpItem();
+        }
     }
 
     setPosition(positionX, positionY) {
@@ -60,22 +68,66 @@ class Player extends Entity
 
     getPosition() {
         return [this.positionX, this.positionY];
-    }
+	}
+	
+	setVision(vision) {
+		this.vision = vision;
+	}
+
+	getVision() {
+		return this.vision;
+	}
 
     canSee(x, y) {
 
+        // The block the player is on
         if (this.positionX == x && this.positionY == y) {
             return true;
         }
 
-        if (this.positionX == x && (this.positionY == (y - 1) || this.positionY == (y + 1))) {
-            return true;
-        }
+        // Blocks up and down of the player
+        if (this.positionX == x) {
 
-        if (this.positionY == y && (this.positionX == (x - 1) || this.positionX == (x + 1))) {
+			for (let b = this.positionY; b >= (this.positionY - this.vision); b--) {
+
+				// If the next block up is a path
+				if (caveGrid[this.positionX][b].path == false) {
+					break;
+				}
+				else {
+
+				}
+			}
+		} 
+
+        // Blocks right and left of the player
+        if (this.positionY == y && (this.positionX == (x - this.vision) || this.positionX == (x + this.vision))) {
             return true;
         }
 
         return false;
+    }
+
+    isOnItem() {
+
+        if (caveGrid[this.positionX][this.positionY].item != undefined) {
+
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    pickUpItem() {
+
+        if (caveGrid[this.positionX][this.positionY].item != undefined) {
+
+            if (caveGrid[this.positionX][this.positionY].item instanceof Torch) {
+                this.vision = 3;
+            }
+            
+            delete caveGrid[this.positionX][this.positionY].item;
+        }
     }
 }
